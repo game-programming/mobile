@@ -2,7 +2,7 @@
 var player;
 var enemies = [];
 
-var enemySpawnInterval = 500;
+var enemySpawnInterval = 250;
 var lastEnemySpawn = 0;
 
 var gameOver = false;
@@ -26,6 +26,7 @@ function draw() {
 		if(millis() > lastEnemySpawn + enemySpawnInterval) {
 			lastEnemySpawn = millis();
 
+			// what side should it come in from?
 			var rando = int(random(4));
 
 			if(rando == 0) {
@@ -105,6 +106,8 @@ function Player () {
 	// internal variables
 	this.x = width/2;
 	this.y = height/2;
+
+	this.diameter = 80;
  
 	this.update = function() {
 		// move based on rotation of phone
@@ -126,7 +129,7 @@ function Player () {
 	this.display = function() {
 		fill(0);
 		noStroke();
-		ellipse(this.x, this.y, 40, 40);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
 	}
 }
 
@@ -142,6 +145,8 @@ function Enemy (x, y, xSpeed, ySpeed) {
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
 
+	this.diameter = 40;
+
 	this.deleteMe = false;
  
 	this.update = function() {
@@ -153,7 +158,7 @@ function Enemy (x, y, xSpeed, ySpeed) {
 		// did we touch player?
 		var distToPlayer = dist(this.x, this.y, player.x, player.y);
 		// if so, lose
-		if(distToPlayer < 30) {
+		if(distToPlayer < this.diameter/2 + player.diameter/2) {
 			gameOver = true;
 		}
 
@@ -169,6 +174,6 @@ function Enemy (x, y, xSpeed, ySpeed) {
 	this.display = function() {
 		fill(255,0,0);
 		noStroke();
-		ellipse(this.x, this.y, 20, 20);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
 	}
 }

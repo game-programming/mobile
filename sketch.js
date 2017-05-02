@@ -59,10 +59,10 @@ function Bouncer(x, y) {
 		this.x += rotationY;
 
 		// have we touched the sides?
-		if(this.x < 0 OR this.x > width) {
+		if(this.x < 0 || this.x > width) {
 			gameOver = true;
 		}
-		if(this.y < 0 OR this.y > height) {
+		if(this.y < 0 || this.y > height) {
 			gameOver = true;
 		}
 	}

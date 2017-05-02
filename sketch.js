@@ -1,18 +1,22 @@
-// create an array of objects
+// a singular player object
 var player;
+// create array of enemies
 var enemies = [];
 
+// control the spawning of enemies
 var enemySpawnInterval = 250;
 var lastEnemySpawn = 0;
 
 var gameOver = false;
 
 function setup() {
+	// basically mandatory for mobile sketches
 	pixelDensity(1);
 
 	//createCanvas(windowWidth / 4, windowHeight / 4);
 	createCanvas(windowWidth, windowHeight);
 
+	// create player object
 	player = new Player();
 
 }
@@ -79,10 +83,12 @@ function draw() {
 		player.display();
 
 		// call all methods for enemies
+		// go backwards cuz we might delete
 		for(var i = enemies.length - 1; i >= 0; i--) {
 			enemies[i].update();
 			enemies[i].display();
 
+			// is it marked for deletion?
 			if(enemies[i].deleteMe) {
 				enemies.splice(i,1);
 			}

@@ -8,7 +8,7 @@ var lastEnemySpawn = 0;
 var gameOver = false;
 
 function setup() {
-	pixelDensity(1) 
+	pixelDensity(1);
 
 	//createCanvas(windowWidth / 4, windowHeight / 4);
 	createCanvas(windowWidth, windowHeight);

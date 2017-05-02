@@ -1,6 +1,8 @@
 // create an array of objects
 var bouncers = [];
 
+var gameOver = false;
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
@@ -19,16 +21,25 @@ function setup() {
 }
 
 function draw() {
-	// call all methods for bouncers
-	for(var i = 0; i < bouncers.length; i++) {
-		bouncers[i].update();
-		bouncers[i].display();
+
+	if(!gameOver) {
+		// semi-transparent background
+		fill(255,30);
+		noStroke();
+		rect(0,0,width,height);
+
+		// call all methods for bouncers
+		for(var i = 0; i < bouncers.length; i++) {
+			bouncers[i].update();
+			bouncers[i].display();
+		}
+	} else {
+		// game is over!
+		background(255,0,0);
+		fill(255,255,0);
+		text("YOU LOSE!", width/2, height/2);
 	}
-}
 
-
-function mousePressed() {
-	
 }
 
 
@@ -46,6 +57,14 @@ function Bouncer(x, y) {
 
 		this.y += rotationX;
 		this.x += rotationY;
+
+		// have we touched the sides?
+		if(this.x < 0 OR this.x > width) {
+			gameOver = true;
+		}
+		if(this.y < 0 OR this.y > height) {
+			gameOver = true;
+		}
 	}
  
 	this.display = function() {

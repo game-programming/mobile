@@ -4,6 +4,18 @@ var bouncers = [];
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
+	// create a bouncer at touch location
+	for(var i = 0; i < 5; i++) {
+
+		// create a random location
+		var x = random(width*.25,width*.75);
+		var y = random(height*.4,height*.6);
+
+		// use those and create new bouncer
+		bouncers.push(new Bouncer(x, y));
+	}
+	
+
 }
 
 function draw() {
@@ -16,8 +28,7 @@ function draw() {
 
 
 function mousePressed() {
-	// create a bouncer at touch location
-	bouncers.push(new Bouncer(mouseX, mouseY));
+	
 }
 
 
@@ -29,7 +40,12 @@ function Bouncer(x, y) {
 	this.y = y;
  
 	this.update = function() {
+		// move based on rotation of phone
+		// accelerationX, accelerationY, accelerationZ
+		// rotationX, rotationY, rotationZ
 
+		this.y += rotationX;
+		this.x += rotationY;
 	}
  
 	this.display = function() {

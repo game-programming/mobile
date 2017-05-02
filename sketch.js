@@ -8,7 +8,7 @@ var lastEnemySpawn = 0;
 var gameOver = false;
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	createCanvas(windowWidth / 4, windowHeight / 4);
 
 	player = new Player();
 
@@ -48,10 +48,7 @@ function draw() {
 			
 		}
 
-		// semi-transparent background
-		fill(255,30);
-		noStroke();
-		rect(0,0,width,height);
+		background(255);
 
 
 		player.update();

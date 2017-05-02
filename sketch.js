@@ -48,6 +48,26 @@ function draw() {
 				enemies.push(new Enemy(x,y,xSpeed,ySpeed));
 			}
 
+			if(rando == 2) {
+				// come from the left
+				var x = 0;
+				var y = random(height);
+				var xSpeed = random(1,5);
+				var ySpeed = random(-5,-5);
+
+				enemies.push(new Enemy(x,y,xSpeed,ySpeed));
+			}
+
+			if(rando == 3) {
+				// come from the right
+				var x = width;
+				var y = random(height);
+				var xSpeed = random(-1,-5);
+				var ySpeed = random(-5,-5);
+
+				enemies.push(new Enemy(x,y,xSpeed,ySpeed));
+			}
+
 			
 		}
 

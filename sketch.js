@@ -1,42 +1,74 @@
 // create an array of objects
-var bouncers = [];
+var player;
+var enemies = [];
+
+var enemySpawnInterval = 500;
+var lastEnemySpawn = 0;
 
 var gameOver = false;
 
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
-	// create a bouncer at touch location
-	for(var i = 0; i < 5; i++) {
-
-		// create a random location
-		var x = random(width*.25,width*.75);
-		var y = random(height*.4,height*.6);
-
-		// use those and create new bouncer
-		bouncers.push(new Bouncer(x, y));
-	}
-	
+	player = new Player();
 
 }
 
 function draw() {
 
+
 	if(!gameOver) {
+
+		// time to spawn a new enemy?
+		if(millis() > lastEnemySpawn + enemySpawnInterval) {
+			lastEnemySpawn = millis();
+
+			var rando = int(random(4));
+
+			if(rando == 0) {
+				// come from the top
+				var x = random(width);
+				var y = 0;
+				var xSpeed = random(-5,5);
+				var ySpeed = random(1,5);
+
+				enemies.push(new Enemy(x,y,xSpeed,ySpeed));
+			}
+
+			if(rando == 1) {
+				// come from the bottom
+				var x = random(width);
+				var y = height;
+				var xSpeed = random(-5,5);
+				var ySpeed = random(-1,-5);
+
+				enemies.push(new Enemy(x,y,xSpeed,ySpeed));
+			}
+
+			
+		}
+
 		// semi-transparent background
 		fill(255,30);
 		noStroke();
 		rect(0,0,width,height);
 
-		// call all methods for bouncers
-		for(var i = 0; i < bouncers.length; i++) {
-			bouncers[i].update();
-			bouncers[i].display();
+
+		player.update();
+		player.display();
+
+		// call all methods for enemies
+		for(var i = 0; i < enemies.length; i++) {
+			enemies[i].update();
+			enemies[i].display();
 		}
+
 	} else {
 		// game is over!
 		background(255,0,0);
 		fill(255,255,0);
+		textAlign(CENTER, CENTER);
+		textSize(50);
 		text("YOU LOSE!", width/2, height/2);
 	}
 
@@ -44,11 +76,11 @@ function draw() {
 
 
 // create a class
-function Bouncer(x, y) {
+function Player () {
  
 	// internal variables
-	this.x = x;
-	this.y = y;
+	this.x = width/2;
+	this.y = height/2;
  
 	this.update = function() {
 		// move based on rotation of phone
@@ -71,5 +103,35 @@ function Bouncer(x, y) {
 		fill(0);
 		noStroke();
 		ellipse(this.x, this.y, 40, 40);
+	}
+}
+
+
+
+
+// create a class
+function Enemy (x, y, xSpeed, ySpeed) {
+ 
+	// internal variables
+	this.x = x;
+	this.y = y;
+	this.xSpeed = xSpeed;
+	this.ySpeed = ySpeed;
+ 
+	this.update = function() {
+		this.x += xSpeed;
+		this.y += ySpeed;
+
+		var distToPlayer = dist(this.x, this.y, player.x, player.y);
+
+		if(distToPlayer < 30) {
+			gameOver = true;
+		}
+	}
+ 
+	this.display = function() {
+		fill(255,0,0);
+		noStroke();
+		ellipse(this.x, this.y, 20, 20);
 	}
 }

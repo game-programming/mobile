@@ -78,9 +78,13 @@ function draw() {
 		player.display();
 
 		// call all methods for enemies
-		for(var i = 0; i < enemies.length; i++) {
+		for(var i = enemies.length - 1; i >= 0; i--) {
 			enemies[i].update();
 			enemies[i].display();
+
+			if(enemies[i].deleteMe) {
+				enemies.splice(i,1);
+			}
 		}
 
 	} else {
@@ -137,15 +141,28 @@ function Enemy (x, y, xSpeed, ySpeed) {
 	this.y = y;
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
+
+	this.deleteMe = false;
  
 	this.update = function() {
+
+		// move
 		this.x += xSpeed;
 		this.y += ySpeed;
 
+		// did we touch player?
 		var distToPlayer = dist(this.x, this.y, player.x, player.y);
-
+		// if so, lose
 		if(distToPlayer < 30) {
 			gameOver = true;
+		}
+
+		// have we touched the sides?
+		if(this.x < 0 || this.x > width) {
+			this.deleteMe = true;	// if so, mark for deletion
+		}
+		if(this.y < 0 || this.y > height) {
+			this.deleteMe = true;
 		}
 	}
  
